@@ -1,0 +1,17 @@
+{
+"type": "FeatureCollection",
+"name": "LYNX_Red_Line_Stations",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID_1": 1, "Name": "Huntersville", "Status": "Proposed" }, "geometry": { "type": "Point", "coordinates": [ -80.840980088193803, 35.411580571026917 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 2, "Name": "Sam Furr", "Status": "Proposed" }, "geometry": { "type": "Point", "coordinates": [ -80.843622293493098, 35.447103512117714 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 3, "Name": "Cornelius", "Status": "Proposed" }, "geometry": { "type": "Point", "coordinates": [ -80.857080449691509, 35.480368057699501 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 4, "Name": "Davidson", "Status": "Proposed" }, "geometry": { "type": "Point", "coordinates": [ -80.849655465498699, 35.50042448169394 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 5, "Name": "Hambright", "Status": "Proposed" }, "geometry": { "type": "Point", "coordinates": [ -80.830034739305844, 35.377225801710878 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 6, "Name": "Derita", "Status": "Proposed" }, "geometry": { "type": "Point", "coordinates": [ -80.804907520283592, 35.300976428793142 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 7, "Name": "Harris", "Status": "Proposed" }, "geometry": { "type": "Point", "coordinates": [ -80.824465933294263, 35.33350220165898 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 8, "Name": "Eastfield", "Status": "Proposed" }, "geometry": { "type": "Point", "coordinates": [ -80.819818216297875, 35.358941973011774 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 9, "Name": "Mount Mourne", "Status": "Proposed" }, "geometry": { "type": "Point", "coordinates": [ -80.848254425001954, 35.546472178638311 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 10, "Name": "Charlotte Gateway Station", "Status": "Proposed" }, "geometry": { "type": "Point", "coordinates": [ -80.848435618218275, 35.231790816979199 ] } }
+]
+}
