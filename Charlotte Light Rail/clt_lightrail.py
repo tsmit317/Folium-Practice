@@ -30,7 +30,10 @@ red_line_stops.add_child(folium.GeoJson(data=open('data/LYNX_Red_Line_Station.ge
                                              weight = 1, #outline weight
                                              fill_color = '#000000', 
                                              fill_opacity = 1),
-                style_function=lambda x: red_style))
+                style_function=lambda x: red_style,
+                highlight_function=lambda feature: {"fillcolor": "ff0000", "color": "white"},
+                popup=folium.GeoJsonPopup(fields= ['Name'],
+                aliases= ['Station: '])))
 
 
 red_line_route = folium.FeatureGroup(name='Red Line Route')
@@ -41,12 +44,18 @@ red_line_route.add_child(folium.GeoJson(data=open('data/red_line_route.geojson',
 
 gold = folium.FeatureGroup(name='Gold Line Stops')
 gold_style = {'fillColor': '#e3c022', 'color': '#000000'} 
+gold_construction_style = {'fillColor': '#e3c022', 'color': '#fc7703'} 
+gold_proposed_style = {'fillColor': '#e3c022', 'color': '#d40007'} 
 gold.add_child(folium.GeoJson(data=open('data/LYNX_Gold_Line_Stops.geojson', 'r', encoding='utf-8-sig').read(), 
                 marker = folium.CircleMarker(radius = 6, # Radius in metres
                                              weight = 1, #outline weight
                                              fill_color = '#000000', 
                                              fill_opacity = 1),
-                style_function=lambda x: gold_style))
+                style_function=lambda x: gold_style if x['properties']['Status'] == 'Operating' 
+                                         else gold_construction_style if x['properties']['Status'] == 'Construction' else gold_proposed_style,
+                highlight_function=lambda feature: {"fillcolor": "ffee00", "color": "white"},
+                popup=folium.GeoJsonPopup(fields=['Stop_Name', 'Status'],
+                aliases= ['Station: ','Status'])))
 
 
 mini_map = folium.plugins.MiniMap(toggle_display = True)
