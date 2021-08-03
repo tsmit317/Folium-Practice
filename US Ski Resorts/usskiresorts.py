@@ -20,9 +20,18 @@ for i in range(0,len(data)):
       <p style="margin:0;">Vertical: {vert}</p>
       <p style="margin:0;">Number of runs: {runs}</p>
       <p style="margin:0;">Number of lifts: {lifts}</p>
-      <p style="margin:0;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Ski_trail_rating_symbol-green_circle.svg/1024px-Ski_trail_rating_symbol-green_circle.svg.png" width="20" height="20"> {green}</p>
-      <p style="margin:0;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Ski_trail_rating_symbol-blue_square.svg/1024px-Ski_trail_rating_symbol-blue_square.svg.png" width="20" height="20">{blue}</p>
-      <p style="margin:0;"><img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Ski_trail_rating_symbol-black_diamond.svg" width="20" height="20">  {black}</p>
+      <div>
+        <img style="vertical-align:middle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Ski_trail_rating_symbol-green_circle.svg/1024px-Ski_trail_rating_symbol-green_circle.svg.png" width="20" height="20">
+        <span style="vertical-align:middle">{green}</span>
+      </div>
+      <div>
+        <img style="vertical-align:middle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Ski_trail_rating_symbol-blue_square.svg/1024px-Ski_trail_rating_symbol-blue_square.svg.png" width="20" height="20">
+        <span style="vertical-align:middle">{blue}</span>
+      </div>
+      <div>
+        <img style="vertical-align:middle" src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Ski_trail_rating_symbol-black_diamond.svg" width="20" height="20">
+        <span style="vertical-align:middle">{black}</span>
+      </div>
 
     </div>
     """.format(base= "No Info" if pd.isna(data.iloc[i]['base']) else int(data.iloc[i]['base']), 
