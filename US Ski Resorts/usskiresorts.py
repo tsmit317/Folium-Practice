@@ -1,3 +1,4 @@
+
 import folium
 from numpy import isnan
 import pandas as pd
@@ -45,12 +46,15 @@ for i in range(0,len(data)):
                black="{0:.1f}%".format(data.iloc[i]['black_percent'] * 100))
 
     iframe = folium.IFrame(html=html, width=300, height=200)
-
+    desc_html = """<div style="white-space: normal">{name} </div>""".format(name=data.iloc[i]['resort_name'])
     popup = folium.Popup(iframe, max_width=300)
     ski_icon = folium.features.CustomIcon('images/ski-icon2.png', icon_size=(25,25))
     folium.Marker(
       location=[data.iloc[i]['lat'], data.iloc[i]['lon']],
       popup=popup,
-      icon=ski_icon
+      icon=ski_icon,
+      tooltip=folium.Tooltip(
+        text=folium.Html(desc_html, script=True, width=150).render(),
+      )
     ).add_to(m)
 m.save('usskiresorts.html')
