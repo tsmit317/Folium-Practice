@@ -10,11 +10,8 @@ md_lg_df = df.loc[(df['type']=='large_airport') | (df['type']=='medium_airport')
 
 map = folium.Map(location=[40.86736256063699, -94.73893921691446], zoom_start=4)
 
-lg = folium.FeatureGroup(name="Large Airports")
-md = folium.FeatureGroup(name="Medium Airports")
-american_hubs_fg = folium.FeatureGroup(name="American Airlines Hubs", show=False)
-delta_hubs_fg = folium.FeatureGroup(name="Delta Airlines Hubs", show=False)
-united_hubs_fg = folium.FeatureGroup(name="United Airlines Hubs", show=False)
+lg = folium.FeatureGroup(name="Large Airports", show=False)
+md = folium.FeatureGroup(name="Medium Airports", show=False)
 
 def create_popup_html(dataframe):
     return """
@@ -61,115 +58,77 @@ for i in range(len(md_lg_df)):
             )
         ))
 
+def create_hub_layer(hub_list, main_hub, fgroup, sub_hub_list= []):
+   
+    airline_df = md_lg_df[md_lg_df['ident'].isin(hub_list)]
+    main_hub_coord = [float(md_lg_df.loc[md_lg_df['ident'] == main_hub]['latitude_deg']), float(md_lg_df.loc[md_lg_df['ident'] == main_hub]['longitude_deg'])]
+    hub_coord_list = []
 
+    for i in range(len(airline_df)):
+        if airline_df.iloc[i]['ident'] != main_hub:
+            temp = [
+                    main_hub_coord,
+                    [float(airline_df.iloc[i]['latitude_deg']), float(airline_df.iloc[i]['longitude_deg'])]
+                   ]
+            hub_coord_list.append(temp)
 
+        popup_html, tool_tip_html = create_popup_html(airline_df.iloc[i])
+        lat_lon = [float(airline_df.iloc[i]['latitude_deg']), float(airline_df.iloc[i]['longitude_deg'])]
+    
+        iframe = folium.IFrame(html=popup_html, width=200, height=200)
+        popup = folium.Popup(iframe, max_width=200)
+
+        lg_icon = folium.features.CustomIcon('img/secondary.png' if airline_df.iloc[i]['ident'] in sub_hub_list else 'img/lg_air_icon.png', 
+                                              icon_size=(20,20) if airline_df.iloc[i]['ident'] in sub_hub_list else (25,25))
+        fgroup.add_child(folium.Marker(
+            location=lat_lon,
+            popup=popup, 
+            icon=lg_icon,
+            tooltip=folium.Tooltip(
+                text=folium.Html(tool_tip_html, script=True, width=150).render(),
+            )
+        ))
+    return hub_coord_list
+
+american_hubs_fg = folium.FeatureGroup( name="American Airlines Hubs", show=False)
+delta_hubs_fg = folium.FeatureGroup( name="Delta Airlines Hubs", show=False)
+united_hubs_fg = folium.FeatureGroup( name="United Airlines Hubs", show=False)
+alaskan_hubs_fg = folium.FeatureGroup( name="Alaska Airlines Hubs", show=False)
+hawaiian_hubs_fg = folium.FeatureGroup( name="Hawaiian Airlines Hubs", show=False)
 
 # Create American Airline Hub Layer
-
 aa_list = ['KDFW','KCLT', 'KPHL', 'KORD', 'KLAX', 'KLGA', 'KMIA', 'KPHX', 'KDCA', 'KJFK']
-american_df = md_lg_df[md_lg_df['ident'].isin(aa_list)]
-kdfw_coord = [float(md_lg_df.loc[md_lg_df['ident'] == 'KDFW']['latitude_deg']), float(md_lg_df.loc[md_lg_df['ident'] == 'KDFW']['longitude_deg'])]
-american_hub_coords = []
-
-for i in range(len(american_df)):
-    if american_df.iloc[i]['ident'] != 'KDFW':
-        temp = [
-                kdfw_coord,
-                [float(american_df.iloc[i]['latitude_deg']), float(american_df.iloc[i]['longitude_deg'])]
-               ]
-        american_hub_coords.append(temp)
-    
-    popup_html, tool_tip_html = create_popup_html(american_df.iloc[i])
-    
-    lat_lon = [float(american_df.iloc[i]['latitude_deg']), float(american_df.iloc[i]['longitude_deg'])]
-    
-    iframe = folium.IFrame(html=popup_html, width=200, height=200)
-    popup = folium.Popup(iframe, max_width=200)
-    lg_icon = folium.features.CustomIcon('img/lg_air_icon.png', icon_size=(25,25))
-    american_hubs_fg.add_child(folium.Marker(
-        location=lat_lon,
-        popup=popup, 
-        icon=lg_icon,
-        tooltip=folium.Tooltip(
-            text=folium.Html(tool_tip_html, script=True, width=150).render(),
-        )
-    ))
+american_hubs_fg.add_child(folium.plugins.AntPath(create_hub_layer(aa_list, 'KDFW', american_hubs_fg), color= '#B61F23'))
+map.add_child(american_hubs_fg)
 
 
 # Create Delta Hub Layer    
 delta_list = [ 'KATL', 'KBOS', 'KDTW', 'KLAX', 'KMSP', 'KJFK', 'KLGA', 'KSLC', 'KSEA', 'KAUS', 'KCVG', 'KBNA', 'KRDU', 'KSJC']
 delta_list_small = ['KAUS', 'KCVG', 'KBNA', 'KRDU', 'KSJC']
-
-delta_df = md_lg_df[md_lg_df['ident'].isin(delta_list)]
-katl_coord = [float(md_lg_df.loc[md_lg_df['ident'] == 'KATL']['latitude_deg']), float(md_lg_df.loc[md_lg_df['ident'] == 'KATL']['longitude_deg'])]
-delta_hub_coords = []
-
-for i in range(len(delta_df)):
-    if delta_df.iloc[i]['ident'] != 'KATL':
-        temp = [
-                katl_coord,
-                [float(delta_df.iloc[i]['latitude_deg']), float(delta_df.iloc[i]['longitude_deg'])]
-               ]
-        delta_hub_coords.append(temp)
-    
-    popup_html, tool_tip_html = create_popup_html(delta_df.iloc[i])
-    
-    lat_lon = [float(delta_df.iloc[i]['latitude_deg']), float(delta_df.iloc[i]['longitude_deg'])]
-    
-    iframe = folium.IFrame(html=popup_html, width=200, height=200)
-    popup = folium.Popup(iframe, max_width=200)
-    lg_icon = folium.features.CustomIcon('img/secondary.png' if delta_df.iloc[i]['ident'] in delta_list_small else 'img/lg_air_icon.png', icon_size=(25,25))
-    delta_hubs_fg.add_child(folium.Marker(
-        location=lat_lon,
-        popup=popup, 
-        icon=lg_icon,
-        tooltip=folium.Tooltip(
-            text=folium.Html(tool_tip_html, script=True, width=150).render(),
-        )
-    ))
-
-
-# United Airlines Hub Layer
-
-united_list = ['KORD', 'KDEN', 'KIAH', 'KLAX', 'KEWR', 'KSFO', 'KIAD']
-united_df = md_lg_df[md_lg_df['ident'].isin(united_list)]
-kord_coord = [float(md_lg_df.loc[md_lg_df['ident'] == 'KORD']['latitude_deg']), float(md_lg_df.loc[md_lg_df['ident'] == 'KORD']['longitude_deg'])]
-united_hub_coords = []
-for i in range(len(united_df)):
-    if united_df.iloc[i]['ident'] != 'KATL':
-        temp = [
-                kord_coord,
-                [float(united_df.iloc[i]['latitude_deg']), float(united_df.iloc[i]['longitude_deg'])]
-               ]
-        united_hub_coords.append(temp)
-    
-    popup_html, tool_tip_html = create_popup_html(united_df.iloc[i])
-    
-    lat_lon = [float(united_df.iloc[i]['latitude_deg']), float(united_df.iloc[i]['longitude_deg'])]
-    
-    iframe = folium.IFrame(html=popup_html, width=200, height=200)
-    popup = folium.Popup(iframe, max_width=200)
-    lg_icon = folium.features.CustomIcon('img/lg_air_icon.png', icon_size=(25,25))
-    united_hubs_fg.add_child(folium.Marker(
-        location=lat_lon,
-        popup=popup, 
-        icon=lg_icon,
-        tooltip=folium.Tooltip(
-            text=folium.Html(tool_tip_html, script=True, width=150).render(),
-        )
-    ))
-
-
-
-
-american_hubs_fg.add_child(folium.plugins.AntPath(american_hub_coords, color= '#B61F23'))
-map.add_child(american_hubs_fg)
-
-delta_hubs_fg.add_child(folium.plugins.AntPath(delta_hub_coords, color='#003268'))
+delta_hubs_fg.add_child(folium.plugins.AntPath(create_hub_layer(delta_list, 'KATL', delta_hubs_fg, delta_list_small), color='#003268'))
 map.add_child(delta_hubs_fg)
 
-united_hubs_fg.add_child(folium.plugins.AntPath(united_hub_coords, color='#005DAA'))
+# United Airlines Hub Layer
+united_list = ['KORD', 'KDEN', 'KIAH', 'KLAX', 'KEWR', 'KSFO', 'KIAD']
+united_hubs_fg.add_child(folium.plugins.AntPath(create_hub_layer(united_list, 'KORD', united_hubs_fg), color='#005DAA'))
 map.add_child(united_hubs_fg)
+
+# Alaskan Airline Hub Layer
+alaskan_list = ['KSEA', 'PANC', 'KLAX', 'KPDX', 'KSFO', 'KSAN', 'KSJC']
+alaskan_list_small = ['KSAN', 'KSJC']
+alaskan_hubs_fg.add_child(folium.plugins.AntPath(create_hub_layer(alaskan_list, 'KSEA', alaskan_hubs_fg, alaskan_list_small), color='#B3D57D', pulseColor='#00385F'))
+map.add_child(alaskan_hubs_fg)
+
+hawaiian_list = ['PHNL', 'PHOG', 'PHKO', 'PHLI']
+hawaiian_small_list = ['PHKO', 'PHLI']
+hawaiian_hubs_fg.add_child(folium.plugins.AntPath(create_hub_layer(hawaiian_list, 'PHNL', hawaiian_hubs_fg, hawaiian_small_list), color= '#413691'))
+map.add_child(hawaiian_hubs_fg)
+
+
+
+
+
+
 map.add_child(lg)
 map.add_child(md)
 map.add_child(folium.LayerControl())
