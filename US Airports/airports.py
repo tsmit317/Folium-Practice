@@ -162,13 +162,13 @@ for i in range(len(united_df)):
 
 
 
-american_hubs_fg.add_child(folium.plugins.AntPath(american_hub_coords, {"color": "#e60505"}))
+american_hubs_fg.add_child(folium.plugins.AntPath(american_hub_coords, color= '#B61F23'))
 map.add_child(american_hubs_fg)
 
-delta_hubs_fg.add_child(folium.plugins.AntPath(delta_hub_coords))
+delta_hubs_fg.add_child(folium.plugins.AntPath(delta_hub_coords, color='#003268'))
 map.add_child(delta_hubs_fg)
 
-united_hubs_fg.add_child(folium.plugins.AntPath(united_hub_coords))
+united_hubs_fg.add_child(folium.plugins.AntPath(united_hub_coords, color='#005DAA'))
 map.add_child(united_hubs_fg)
 map.add_child(lg)
 map.add_child(md)
