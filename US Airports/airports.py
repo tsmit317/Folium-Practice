@@ -1,20 +1,23 @@
-from os import name
+
 import folium
 import folium.features
 import folium.plugins
 from folium.plugins import fast_marker_cluster
 import pandas as pd
-from branca.element import Template, MacroElement
+import os
 
-
-
-
-
+api_key = os.environ.get('MAPBOX_API_KEY')
 
 df = pd.read_csv('usairports.csv')
 md_lg_df = df.loc[(df['type']=='large_airport') | (df['type']=='medium_airport')] # Ignoring small airports for the time being
 
-map = folium.Map(location=[40.86736256063699, -94.73893921691446], zoom_start=4,tiles="Stamen Terrain")
+map = folium.Map(location=[40.86736256063699, -94.73893921691446], zoom_start=4)
+
+folium.TileLayer('openstreetmap').add_to(map)
+folium.TileLayer('Stamen Terrain').add_to(map)
+folium.TileLayer('Stamen Toner').add_to(map)
+folium.TileLayer('Stamen Watercolor').add_to(map)
+folium.TileLayer('CartoDB dark_matter', attr='Carto').add_to(map)
 
 lg = folium.FeatureGroup(name="Large Airports", show=False)
 md = folium.FeatureGroup(name="Medium Airports", show=False)
@@ -35,8 +38,8 @@ def create_popup_html(dataframe):
                 state= dataframe['iso_region'][-2:],
                 wiki=dataframe['wikipedia_link']), """<div style="white-space: normal">{name} </div>""".format(name=dataframe['name'])
 
+
 for i in range(len(md_lg_df)):
-    
     popup_html, tool_tip_html = create_popup_html(md_lg_df.iloc[i])
         
     lat_lon = [float(md_lg_df.iloc[i]['latitude_deg']), float(md_lg_df.iloc[i]['longitude_deg'])]
@@ -110,7 +113,6 @@ aa_list = ['KDFW','KCLT', 'KPHL', 'KORD', 'KLAX', 'KLGA', 'KMIA', 'KPHX', 'KDCA'
 american_hubs_fg.add_child(folium.plugins.AntPath(create_hub_layer(aa_list, 'KDFW', american_hubs_fg, [], 'img/aa-primary.png', 'img/aa-secondary.png'), color= '#B61F23'))
 map.add_child(american_hubs_fg)
 
-
 # Create Delta Hub Layer    
 delta_hubs_fg = folium.FeatureGroup( name="Delta Airlines Hubs", show=False)
 delta_list = [ 'KATL', 'KBOS', 'KDTW', 'KLAX', 'KMSP', 'KJFK', 'KLGA', 'KSLC', 'KSEA', 'KAUS', 'KCVG', 'KBNA', 'KRDU', 'KSJC']
@@ -169,10 +171,8 @@ map.add_child(spirit_hubs_fg)
 
 
 
-
 map.add_child(lg)
 map.add_child(md)
 map.add_child(folium.LayerControl())
-
 
 map.save('airportmap.html')
