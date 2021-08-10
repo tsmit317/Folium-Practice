@@ -1,3 +1,4 @@
+from os import name
 from re import M
 import folium
 import folium.features
@@ -6,7 +7,10 @@ from folium.plugins import fast_marker_cluster
 import pandas as pd
 
 usdf = pd.read_csv('usroutes.csv')
+df = pd.read_csv('airroutes.csv')
 kclt = usdf.loc[usdf['source_airport_icao'] == 'KCLT']
+df = df.loc[(df['source_country'] == 'United States') &  (df['dest_country'] != 'United States') & (df['airline'] == 'AA')]
+international = df.dropna(subset=['dest_lon', 'dest_lat', 'source_lat', 'source_lon'])  
 
 map = folium.Map(location=[40.86736256063699, -94.73893921691446], zoom_start=4)
 
@@ -16,10 +20,11 @@ folium.TileLayer('Stamen Toner').add_to(map)
 folium.TileLayer('Stamen Watercolor').add_to(map)
 folium.TileLayer('CartoDB dark_matter', attr='Carto').add_to(map)
 
-
+international_fg = folium.FeatureGroup(name='International Routes From USA', show=False)
 american_fg = folium.FeatureGroup( name="American Airlines Hubs", show=False)
 delta_fg = folium.FeatureGroup( name="Delta Airlines Hubs", show=False)
 united_fg = folium.FeatureGroup( name="United Airlines Hubs", show=False)
+
 
 aa = kclt.loc[kclt['airline'] == 'AA']
 delta = kclt.loc[kclt['airline_name'] == 'Delta Air Lines']
@@ -38,19 +43,39 @@ def create_popup_html(dataframe):
     """.format( name=str(dataframe['dest_airport_name']), 
                 ident= str(dataframe['dest_airport_icao']),  
                 city=str(dataframe['dest_city']),
-                elevation= int(dataframe['dest_altitude']), 
+                elevation= dataframe['dest_altitude'], 
                 state= dataframe['dest_state'],
                 wiki=dataframe['dest_wiki']
                 ), """<div style="white-space: normal">{name} </div>""".format(name=str(dataframe['dest_airport_name']))
 
+def create_source_marker(dataframe, fgroup):
+    srcdf = dataframe.drop_duplicates(subset = ["source_airport_icao"])
+    for i in range(len(srcdf)):
+        popup_html, tool_tip_html = create_popup_html(srcdf.iloc[i])
+        lat_lon = [float(srcdf.iloc[i]['source_lat']), float(srcdf.iloc[i]['source_lon'])]
+
+        iframe = folium.IFrame(html=popup_html, width=200, height=200)
+        popup = folium.Popup(iframe, max_width=200)
+
+        lg_icon = folium.features.CustomIcon('img/secondary.png', 
+                                                icon_size=(15,15))
+        fgroup.add_child(folium.Marker(
+            location=lat_lon,
+            popup=popup, 
+            icon=lg_icon,
+            tooltip=folium.Tooltip(
+                text=folium.Html(tool_tip_html, script=True, width=150).render(),
+            )
+        ))
+
 def create_line_list(dataframe, fgroup):   
-    charll = [35.214001, -80.9431]
+    
     lines = []
     for i in range(len(dataframe)):
         temp = [
-                charll,
+                [float(dataframe.iloc[i]['source_lat']), float(dataframe.iloc[i]['source_lon'])],
                 [float(dataframe.iloc[i]['dest_lat']), float(dataframe.iloc[i]['dest_lon'])]
-        ]
+               ]
         lines.append(temp)
 
         popup_html, tool_tip_html = create_popup_html(dataframe.iloc[i])
@@ -72,13 +97,14 @@ def create_line_list(dataframe, fgroup):
     return lines
 
 
-
-
+create_source_marker(international, international_fg)
+international_fg.add_child(folium.PolyLine(create_line_list(international, international_fg), color='#B61F23', weight=1))
 
 american_fg.add_child(folium.PolyLine(create_line_list(aa, american_fg), color='#B61F23', weight=1))
 delta_fg.add_child(folium.PolyLine(create_line_list(delta, delta_fg), color='#003268'))
 united_fg.add_child(folium.PolyLine(create_line_list(united, united_fg), color='#00fff7'))
 
+map.add_child(international_fg)
 map.add_child(american_fg)
 map.add_child(delta_fg)
 map.add_child(united_fg)
