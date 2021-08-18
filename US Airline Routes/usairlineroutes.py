@@ -29,6 +29,14 @@ kclt_international = international.loc[international['source_airport_icao'] == '
 
 map = folium.Map(location=[40.86736256063699, -94.73893921691446], zoom_start=4)
 
+title_html = '''
+            <div>
+                <h3 align="center" style="font-size:16px;"><b>{title}</b></h3>
+                <h6 align="center" style="font-size:14px"><b><a href="https://openflights.org/data.html#airline" target="_blank">2014 OpenFlights Route Data </a></b></h6>
+                <p align="center" style="font-size:12px;">Note: Only selected data for KRDU and KCLT</p>
+            </div>'''.format(title='2014 Airline Route Map')
+
+
 folium.TileLayer('openstreetmap').add_to(map)
 folium.TileLayer('CartoDB dark_matter', attr='Carto').add_to(map)
 
@@ -171,4 +179,6 @@ map.add_child(krdu_international_fg)
 
 
 map.add_child(folium.LayerControl())
+map.get_root().html.add_child(folium.Element(title_html))
+
 map.save('usroutemap.html')
