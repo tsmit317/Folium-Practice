@@ -1,0 +1,27 @@
+NAME,Platform,Address,Park and Ride,Parking Spaces,Zipcode,Bike Locker,Bike Rack,Station Type,lat,long
+Carson,Side,218 E. Carson Bv,No,0,28203,No,Yes,Blue Line Station,35.2187319281317,-80.8509290712835
+Charlotte Transportation Center/Arena,Side,303 E. Trade St,No,0,28202,No,Yes,Blue Line Station,35.2253497137878,-80.8409116634229
+I-485/South Blvd,Center,9508 South Bv,Yes,1120,28273,No,Yes,Blue Line Station,35.1070645660645,-80.8828757934742
+Sharon Road West,Center,8815 Crump Rd,Yes,188,28134,Yes,No,Blue Line Station,35.1195203019295,-80.8820517321985
+Arrowood,Center,7717 England St,Yes,289,28273,Yes,No,Blue Line Station,35.135560451168,-80.8763850232376
+Archdale,Center,6230 South Bv,Yes,432,28217,Yes,No,Blue Line Station,35.1528417555028,-80.8775111522817
+Tyvola,Center,5703 Old Pineville Rd,Yes,465,28217,Yes,No,Blue Line Station,35.1628432653366, 80.87750211096528
+Woodlawn,Side,4756 Old Pineville Rd,Yes,382,28217,Yes,No,Blue Line Station,35.1758227390459,-80.8792045242324
+Scaleybark,Side,3750 South Bv,Yes,315,28209,Yes,Yes,Blue Line Station,35.190753416075,-80.8750322776951
+New Bern,Side,129 New Bern St,No,0,28203,Yes,Yes,Blue Line Station,35.1998193936087,-80.8690390560387
+East/West,Side,1821 Camden St,No,0,28203,No,Yes,Blue Line Station,35.212048946341,-80.8590511639185
+Bland St,Side,1511 Camden Rd,No,0,28203,No,Yes,Blue Line Station,35.2157892058406,-80.8552358331732
+3rd St/Convention Center,Side,305 E. 3rd St,No,0,28202,No,Yes,Blue Line Station,35.2237580903272,-80.8430667843091
+7th St,Side,260 E. 7th St,No,0,28202,No,Yes,Blue Line Station,35.2274282867648,-80.8380381278967
+Stonewall,Side,260 E. Stonewall St,No,0,28202,No,Yes,Blue Line Station,35.2212934781985,-80.8471032335375
+9th Street,Side,239 E 9th St,No,0,28202,No,Yes,Blue Line Extension Station,35.2296864369737,-80.8349852617592
+Parkwood,Side,401 Parkwood Ave,No,0,28206,Yes,Yes,Blue Line Extension Station,35.2369623839401,-80.8231921359984
+25th Street,Side,2215 N Brevard St,No,0,28206,No,Yes,Blue Line Extension Station,35.2416805047473,-80.8171340058504
+36th Street,Center,400 E 36th St,No,0,28206,Yes,Yes,Blue Line Extension Station,35.2491374434767,-80.8062011829815
+Tom Hunter,Center,6501 N Tryon St,No,0,28213,Yes,Yes,Blue Line Extension Station,35.2778557687495,-80.7663051633903
+JW Clay Blvd,Center,9101 N Tryon St,Yes,803,28262,Yes,Yes,Blue Line Extension Station,35.3106582098515,-80.7452934440467
+Old Concord Rd,Side,5600 Old Concord Rd,Yes,330,28213,Yes,Yes,Blue Line Extension Station,35.2598785957369,-80.7728282923825
+Sugar Creek,Center,700 E Sugar Creek Rd,Yes,630,28205,Yes,Yes,Blue Line Extension Station,35.2514451942128,-80.7927963647559
+UNC Charlotte,Center,9025 Cameron Blvd,No,0,28262,No,Yes,Blue Line Extension Station,35.3121767139049,-80.733612018777
+University City Blvd,Center,7201 N Tryon St,Yes,1514,28262,Yes,Yes,Blue Line Extension Station,35.286708327243,-80.7609705511292
+McCullough,Center,8315 N Tryon St,No,0,28262,Yes,Yes,Blue Line Extension Station,35.3010099846568,-80.7529782176545
