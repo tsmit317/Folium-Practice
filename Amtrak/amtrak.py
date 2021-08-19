@@ -16,8 +16,8 @@ station_geo = folium.GeoJson(data=open('Amtrak_Stations.geojson', 'r', encoding=
                                                          fill_opacity = 1),
                             style_function=lambda x: red_style,
                             highlight_function=lambda feature: {"fillcolor": "ff0000", "color": "white"},
-                            popup=folium.GeoJsonPopup(fields= ['STNNAME'],
-                            aliases= ['Station: ']))
+                            popup=folium.GeoJsonPopup(fields= ['STNNAME'], aliases= ['Station: ']),
+                            tooltip=folium.features.GeoJsonTooltip(fields=['STNNAME'], aliases= ['Station: ']))
 
 
 amtrak_stations = folium.FeatureGroup(name='Amtrak Stations', show=True)
