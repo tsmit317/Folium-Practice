@@ -55,4 +55,9 @@ for i in range(0,len(data)):
         text=folium.Html(desc_html, script=True, width=150).render(),
       )
     ).add_to(m)
+
+title_html = '''
+             <h3 align="center" style="font-size:16px"><b>US Ski Resorts</b></h3>
+             '''
+m.get_root().html.add_child(folium.Element(title_html))
 m.save('usskiresorts.html')

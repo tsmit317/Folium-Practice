@@ -29,5 +29,12 @@ map.add_child(amtrak_stations)
 map.add_child(mini_map)
 map.add_child(folium.LayerControl())
 
+title_html = '''
+             <h3 align="center" style="font-size:16px"><b>Amtrak Routes and Stations</b></h3>
+             <h6 align="center" style="font-size:14px"><b>Data Source: 
+                <a href="https://data.world/albert/amtrak" target="_blank">
+                DataWorld - J. Albert Bowden II </a></b></h6>
+             '''
+map.get_root().html.add_child(folium.Element(title_html))
 
 map.save('amtrak_routes.html')
