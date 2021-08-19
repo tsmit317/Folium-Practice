@@ -219,5 +219,8 @@ map.add_child(spirit_hubs_fg)
 map.add_child(lg)
 map.add_child(md)
 map.add_child(folium.LayerControl())
-
+title_html = '''
+             <h3 align="center" style="font-size:16px"><b>US Airports and Major Airline Hubs</b></h3>
+             '''
+map.get_root().html.add_child(folium.Element(title_html))
 map.save('airportmap.html')
