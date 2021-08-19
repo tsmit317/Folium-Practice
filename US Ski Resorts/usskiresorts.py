@@ -4,9 +4,7 @@ from numpy import isnan
 import pandas as pd
 
 data = pd.read_csv('ski_resort_stats.csv')
-latitude = 37.0902
-longitude = -95.7129
-m = folium.Map(location=[latitude, longitude], zoom_start=4)
+m = folium.Map(location=[37.0902, -95.7129], zoom_start=4)
 
 
 
